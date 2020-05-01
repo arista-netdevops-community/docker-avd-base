@@ -24,6 +24,7 @@ Image generated for [__Arista Validated Design__](https://github.com/aristanetwo
 Image with all python requirements installed to then run AVD collection with a minimal configuration overhead. It can be used to support local development using following workflow:
 
 ```shell
+# Within host shell
 $ ls
 ansible-cvp ansible-avd custom-project
 
@@ -32,6 +33,7 @@ $ docker run --rm -it -v $(HOME)/.ssh:/root/.ssh \
 		-v $(PWD)/:/projects \
 		-v /etc/hosts:/etc/hosts avdteam/base:centos-8
 
+# Within docker container
 ➜  /projects ls -l
 ansible-cvp ansible-avd custom-project
 ```

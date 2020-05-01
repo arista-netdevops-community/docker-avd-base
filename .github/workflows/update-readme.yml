@@ -15,5 +15,5 @@ jobs:
       env:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKERHUB_REPOSITORY: avdteam/base
+        DOCKERHUB_REPOSITORY: ${{secrets.DOCKER_IMAGE}}
         README_FILEPATH: ./README.md
