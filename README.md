@@ -1,6 +1,6 @@
 # AVD Base Image
 
-Image generated for [__Arista Validated Design__] collection
+Image generated for [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection
 
 ## Tags
 

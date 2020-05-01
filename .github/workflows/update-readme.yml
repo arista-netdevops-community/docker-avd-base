@@ -4,16 +4,16 @@ on:
     branch:
       - master
     paths:
-      - README.md
+      - ./README.md
 
 jobs:
   'update-documentation':
     runs-on: ubuntu-latest
     steps:
     - name: Docker Hub Description Update for BASE
-      uses: peter-evans/dockerhub-description@v2.1.0
+      uses: peter-evans/dockerhub-description@v2.1.1
       env:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKERHUB_REPOSITORY: avdteam/base
-        README_FILEPATH: README.md
+        README_FILEPATH: ./README.md
