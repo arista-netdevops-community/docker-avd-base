@@ -28,7 +28,7 @@ jobs:
         name: avdteam/base
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: base/centos-8/Dockerfile
+        dockerfile: centos-8/Dockerfile
         tags: "latest, centos-8"
 
     # - name: Centos 7 image
