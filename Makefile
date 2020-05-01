@@ -1,6 +1,6 @@
 CURRENT_DIR = $(shell pwd)
 DOCKER_NAME ?= avdteam/base
-DOCKER_TAG ?= debian
+DOCKER_TAG ?= centos-8
 ANSIBLE_VERSION ?= 2.9.6
 
 .PHONY: help
