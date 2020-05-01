@@ -1,5 +1,7 @@
 # AVD Base Image
 
+Image generated for [__Arista Validated Design__] collection
+
 ## Tags
 
 - [`latest`](centos-8/Dockerfile) / [`centos-8`](centos-8/Dockerfile)
