@@ -16,7 +16,7 @@ Image generated for [__Arista Validated Design__](https://github.com/aristanetwo
 
 ## Installed during container startup
 
-- No entrypoint configured
+- No ENTRYPOINT configured
 - CMD is configured to run `zsh` as default shell
 
 ## Description
