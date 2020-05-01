@@ -14,7 +14,8 @@
 
 ## Installed during container startup
 
-None
+- No entrypoint configured
+- CMD is configured to run `zsh` as default shell
 
 ## Description
 

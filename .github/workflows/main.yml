@@ -2,7 +2,8 @@ name: Test
 
 on: [push]
 
-'lint-python':
+jobs:
+  'lint-python':
     name: Test Action
     runs-on: ubuntu-latest
     steps:
