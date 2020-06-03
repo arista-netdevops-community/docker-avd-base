@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/Arista-CVP%20Automation-blue)  ![](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/docker-avd-base) ![Docker Pulls](https://img.shields.io/docker/pulls/avdteam/base) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/avdteam/base/latest) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/avdteam/base/latest)
 # AVD Base Image
 
 Image generated for [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection
@@ -7,17 +8,6 @@ Image generated for [__Arista Validated Design__](https://github.com/aristanetwo
 - [`latest`](centos-8/Dockerfile) / [`centos-8`](centos-8/Dockerfile)
 - [`centos-7`](centos-7/Dockerfile)
 - [`debian`](debian/Dockerfile)
-
-## Installed elements during build
-
-- Python 3 as default  python interpreter
-- Requirements from [arista.cvp](https://github.com/aristanetworks/ansible-cvp)
-- Requirements from [arista.avd](https://github.com/aristanetworks/ansible-avd)
-
-## Installed during container startup
-
-- No ENTRYPOINT configured
-- CMD is configured to run `zsh` as default shell
 
 ## Description
 
@@ -39,3 +29,17 @@ ansible-cvp ansible-avd custom-project
 ```
 
 In this setup, collections are stored on your host, but all the requirements are resolved within the container and is similar to a Python virtual environment approach.
+
+## Image information
+
+### Installed elements during build
+
+- Python 3 as default  python interpreter
+- Requirements from [arista.cvp](https://github.com/aristanetworks/ansible-cvp)
+- Requirements from [arista.avd](https://github.com/aristanetworks/ansible-avd)
+
+### Installed during container startup
+
+- No ENTRYPOINT configured
+- CMD is configured to run `zsh` as default shell
+
