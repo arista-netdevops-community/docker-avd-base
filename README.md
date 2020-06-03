@@ -1,9 +1,12 @@
 ![](https://img.shields.io/badge/Arista-CVP%20Automation-blue)  ![](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/docker-avd-base) ![Docker Pulls](https://img.shields.io/docker/pulls/avdteam/base) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/avdteam/base/latest) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/avdteam/base/latest)
 # AVD Base Image
 
-Image generated for [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection
 
-## Tags
+Image with all python requirements installed to then run [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection with a minimal configuration overhead. It can be used to support local development using following workflow
+
+__Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdteam/base)
+
+## Available Tags
 
 - [`latest`](centos-8/Dockerfile) / [`centos-8`](centos-8/Dockerfile)
 - [`centos-7`](centos-7/Dockerfile)
@@ -11,7 +14,20 @@ Image generated for [__Arista Validated Design__](https://github.com/aristanetwo
 
 ## Description
 
-Image with all python requirements installed to then run AVD collection with a minimal configuration overhead. It can be used to support local development using following workflow:
+### Pull image
+
+```shell
+$ docker pull avdteam/base:latest
+latest: Pulling from avdteam/base
+8a29a15cefae: Already exists
+95df01e08bce: Downloading [==============================================>    ]  33.55MB/36.35MB
+512a8a4d71f7: Downloading [=========================================>         ]   45.1MB/53.85MB
+209c1657264b: Download complete
+bd6eece0221e: Downloading [===================>                               ]  52.04MB/132.1MB
+036c486feecb: Waiting
+```
+
+### Start a container
 
 ```shell
 # Within host shell
