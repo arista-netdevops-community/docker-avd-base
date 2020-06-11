@@ -36,5 +36,5 @@ jobs:
         name: ${{secrets.DOCKER_IMAGE}}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: base/centos-7/Dockerfile
+        dockerfile: centos-7/Dockerfile
         tags: "centos-7"
