@@ -38,9 +38,9 @@ WORKDIR /projects
 VOLUME ["/projects"]
 
 # Install python modules required by the repo
-RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/master/development/requirements.txt \
+RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt \
     && pip3 install -r requirements.txt \
-    && wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/master/development/requirements-dev.txt \
+    && wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt \
     && pip3 install -r requirements-dev.txt \
     && ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
     if [ "$ANSIBLE" == "UNSET" ] || [ "$ANSIBLE_VERSION" == "$ANSIBLE" ]; \
