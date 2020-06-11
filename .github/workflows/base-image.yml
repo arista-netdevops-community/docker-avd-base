@@ -3,8 +3,8 @@ on:
   push:
     branch:
       - master
-    paths:
-      - '*/Dockerfile'
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   build:
