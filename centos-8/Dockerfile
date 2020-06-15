@@ -12,10 +12,12 @@ RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/deve
 RUN pip3 install --user  -r requirements.txt
 RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
 RUN pip3 install --user  -r requirements-dev.txt
-# RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
-#     if [ "$ANSIBLE" == "UNSET" ] || [ "$ANSIBLE_VERSION" == "$ANSIBLE" ]; \
-#     then echo "Correct ansible version"; \
-#     else pip3 install --install-option="--prefix=/install" --no-cache-dir ansible==$ANSIBLE; fi
+RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
+    if [ $ANSIBLE = "UNSET" ] || [ $ANSIBLE_VERSION = $ANSIBLE ]; \
+    then \
+        echo "Correct ansible version"; \
+    else \
+        pip3 install --no-cache-dir --user ansible==$ANSIBLE; fi
 
 
 FROM centos:8 as base
@@ -45,6 +47,7 @@ RUN yum -y install epel-release initscripts \
     which \
     zsh \
     wget \
+    python3 \
     git-extras \
     net-tools \
     && yum clean all
@@ -64,5 +67,5 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
 
 # Use ZSH as default shell with default oh-my-zsh theme
-ENV PATH=/root/.local/bin:$PATH
+ENV PATH=$PATH:/root/.local/bin
 CMD ["/bin/zsh"]
