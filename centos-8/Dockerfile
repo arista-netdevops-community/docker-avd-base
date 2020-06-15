@@ -1,20 +1,33 @@
-FROM centos:8
+FROM python:3.7-slim as builder
+
+# Default Ansible Version
+ARG ANSIBLE=UNSET
+# FROM python:3.7-slim AS compile-image
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc wget git
+
+RUN pip3 install --upgrade pip
+# RUN pip install --user  poetry==1.0.0
+RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN pip3 install --user  -r requirements.txt
+RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN pip3 install --user  -r requirements-dev.txt
+# RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
+#     if [ "$ANSIBLE" == "UNSET" ] || [ "$ANSIBLE_VERSION" == "$ANSIBLE" ]; \
+#     then echo "Correct ansible version"; \
+#     else pip3 install --install-option="--prefix=/install" --no-cache-dir ansible==$ANSIBLE; fi
+
+
+FROM centos:8 as base
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
 
 # Default ARG values
-# Default Ansible Version
-ARG ANSIBLE=UNSET
-# Set some defaults that can be overridden in the build command
-ARG UNAME=docker
-ARG UPASS=docker
-ARG UID=1000
-ARG GID=1000
 # Set term option
 ARG TERM=xterm
 
 # Install necessary packages
 # Install systemd -- See https://hub.docker.com/_/centos/
-RUN yum -y update; yum clean all; \
+RUN yum clean all; \
     (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
     rm -f /lib/systemd/system/multi-user.target.wants/*;\
     rm -f /etc/systemd/system/*.wants/*;\
@@ -26,47 +39,21 @@ RUN yum -y update; yum clean all; \
 
 # Install YUM requirements.
 RUN yum -y install epel-release initscripts \
-    && yum -y update \
     && yum -y install \
     findutils \
     git \
-    make \
     which \
-    python3 \
-    python3-pip \
-    rpm-build \
-    sudo \
     zsh \
     wget \
     git-extras \
     net-tools \
     && yum clean all
 
+COPY --from=builder /root/.local/ /root/.local
+
 # Create the /project directory and add it as a mountpoint
 WORKDIR /projects
 VOLUME ["/projects"]
-
-# Create the user/group that will be used in the container
-# Create the sudo and UNAME groups and add the sudo group to sudoers
-# RUN echo "%sudo   ALL=(ALL:ALL) ALL" >> /etc/sudoers
-# # Create the user, add to the sudo group, and set the password to UPASS
-# RUN groupadd -r -g 1002 -o sudo \
-#    && groupadd -r -g $GID -o $UNAME \
-#    && useradd -r -m -u $UID -g $GID -G sudo -o -s /bin/bash -p $(perl -e 'print crypt($ENV{"UPASS"}, "salt")') $UNAME
-
-# Make Python3 default
-# RUN alternatives --install /usr/bin/python python /usr/bin/python2.7 50 \
-#    && alternatives --install /usr/bin/python python /usr/bin/python3.6 60
-
-# Install python modules required by the repo
-RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt \
-    && pip3 install -r requirements.txt \
-    && wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt \
-    && pip3 install -r requirements-dev.txt \
-    && ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
-    if [ "$ANSIBLE" == "UNSET" ] || [ "$ANSIBLE_VERSION" == "$ANSIBLE" ]; \
-    then echo "Correct ansible version"; \
-    else pip3 install ansible==$ANSIBLE; fi
 
 # Install Oh My ZSH to provide improved shell
 # Force to switch to ZSH even if bash is started explicitely
@@ -77,4 +64,5 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
 
 # Use ZSH as default shell with default oh-my-zsh theme
+ENV PATH=/root/.local/bin:$PATH
 CMD ["/bin/zsh"]
