@@ -2,6 +2,7 @@ CURRENT_DIR = $(shell pwd)
 DOCKER_NAME ?= avdteam/base
 DOCKER_TAG ?= centos-8
 ANSIBLE_VERSION ?= 2.9.6
+BRANCH ?= $(shell git symbolic-ref --short HEAD)
 
 .PHONY: help
 help: ## Display help message
@@ -9,21 +10,40 @@ help: ## Display help message
 
 .PHONY: build
 build: ## Build docker image
-	docker build -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG)
+	if [ $(BRANCH) = 'master' ]; then \
+      docker build -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
+	else \
+	  docker build -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
+    fi
 
 .PHONY: run
 run: ## run docker image
-	docker run --rm -it -v $(CURRENT_DIR)/:/projects \
-		-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(DOCKER_TAG)
+	if [ $(BRANCH) = 'master' ]; then \
+		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(DOCKER_TAG) ;\
+	else \
+		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) ;\
+	fi
 
 .PHONY: test-build
 test-build: ## Build a new image of avd container with specific docker version
-	#docker build --no-cache -t $(CONTAINER) .
-	docker build -t $(DOCKER_NAME):$(DOCKER_TAG)-$(ANSIBLE_VERSION) $(DOCKER_TAG) --build-arg ANSIBLE=$(ANSIBLE_VERSION)
+	if [ $(BRANCH) = 'master' ]; then \
+		docker build -t $(DOCKER_NAME):$(DOCKER_TAG)-$(ANSIBLE_VERSION) $(DOCKER_TAG) --build-arg ANSIBLE=$(ANSIBLE_VERSION) ;\
+	else \
+		docker build -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG)-$(ANSIBLE_VERSION) $(DOCKER_TAG) --build-arg ANSIBLE=$(ANSIBLE_VERSION) ;\
+	fi
 
 .PHONY: test-run
 test: ## run docker test image
-	docker run --rm -it -v $(HOME)/.ssh:$(HOME_DIR_DOCKER)/.ssh \
-		-v $(HOME)/.gitconfig:$(HOME_DIR_DOCKER)/.gitconfig \
-		-v $(CURRENT_DIR)/:/projects \
-		-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(DOCKER_TAG)-$(ANSIBLE_VERSION)
+	if [ $(BRANCH) = 'master' ]; then \
+		docker run --rm -it -v $(HOME)/.ssh:$(HOME_DIR_DOCKER)/.ssh \
+			-v $(HOME)/.gitconfig:$(HOME_DIR_DOCKER)/.gitconfig \
+			-v $(CURRENT_DIR)/:/projects \
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(DOCKER_TAG)-$(ANSIBLE_VERSION) ;\
+	else \
+		docker run --rm -it -v $(HOME)/.ssh:$(HOME_DIR_DOCKER)/.ssh \
+			-v $(HOME)/.gitconfig:$(HOME_DIR_DOCKER)/.gitconfig \
+			-v $(CURRENT_DIR)/:/projects \
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG)-$(ANSIBLE_VERSION) ;\
+	fi
