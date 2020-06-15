@@ -12,6 +12,8 @@ __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdt
 - [`centos-7`](centos-7/Dockerfile)
 - [`debian`](debian/Dockerfile)
 
+> Images with `dev-` prefix in tag are considered under development for different reasons (Dockerfile, requirements update, base image, ...) and are all coming from __devel__ branch of this repository. _Use them carefully._
+
 ## Description
 
 ### Pull image
@@ -58,4 +60,3 @@ In this setup, collections are stored on your host, but all the requirements are
 
 - No ENTRYPOINT configured
 - CMD is configured to run `zsh` as default shell
-
