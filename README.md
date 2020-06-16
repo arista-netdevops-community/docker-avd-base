@@ -106,7 +106,7 @@ $ make DOCKER_TAG=centos-8 run
 ### Build a docker with a specific ansible version
 
 ```shell
-$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 test-build
+$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 build-test
 
 Sending build context to Docker daemon  4.608kB
 Step 1/21 : FROM python:3.7-slim as builder
@@ -123,5 +123,5 @@ Step 4/21 : RUN apt-get install -y --no-install-recommends build-essential gcc w
 To run a container:
 
 ```shell
-$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 test
+$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 run-test
 ```
