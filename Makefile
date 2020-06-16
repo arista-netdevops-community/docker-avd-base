@@ -11,9 +11,9 @@ help: ## Display help message
 .PHONY: build
 build: ## Build docker image
 	if [ $(BRANCH) = 'master' ]; then \
-      docker build -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
+      docker build --rm -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
 	else \
-	  docker build -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
+	  docker build --rm -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
     fi
 
 .PHONY: run
@@ -26,16 +26,16 @@ run: ## run docker image
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) ;\
 	fi
 
-.PHONY: test-build
-test-build: ## Build a new image of avd container with specific docker version
+.PHONY: build-test
+build-test: ## Build a new image of avd container with specific docker version
 	if [ $(BRANCH) = 'master' ]; then \
 		docker build -t $(DOCKER_NAME):$(DOCKER_TAG)-$(ANSIBLE_VERSION) $(DOCKER_TAG) --build-arg ANSIBLE=$(ANSIBLE_VERSION) ;\
 	else \
 		docker build -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG)-$(ANSIBLE_VERSION) $(DOCKER_TAG) --build-arg ANSIBLE=$(ANSIBLE_VERSION) ;\
 	fi
 
-.PHONY: test-run
-test: ## run docker test image
+.PHONY: run-test
+run-test: ## run docker test image with specific ansible version
 	if [ $(BRANCH) = 'master' ]; then \
 		docker run --rm -it -v $(HOME)/.ssh:$(HOME_DIR_DOCKER)/.ssh \
 			-v $(HOME)/.gitconfig:$(HOME_DIR_DOCKER)/.gitconfig \
