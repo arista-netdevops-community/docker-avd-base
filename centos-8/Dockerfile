@@ -1,4 +1,4 @@
-FROM python:3.7-slim as builder
+FROM python:3.6-slim as builder
 
 # Default Ansible Version
 ARG ANSIBLE=UNSET
@@ -8,9 +8,9 @@ RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
 RUN pip3 install --upgrade pip
 # RUN pip install --user  poetry==1.0.0
-RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
 RUN pip3 install --user  -r requirements.txt
-RUN wget https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
 RUN pip3 install --user  -r requirements-dev.txt
 RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
     if [ $ANSIBLE = "UNSET" ] || [ $ANSIBLE_VERSION = $ANSIBLE ]; \
@@ -60,7 +60,7 @@ VOLUME ["/projects"]
 
 # Install Oh My ZSH to provide improved shell
 # Force to switch to ZSH even if bash is started explicitely
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
+RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.bashrc \

@@ -1,4 +1,4 @@
-FROM python:3.7-slim as builder
+FROM python:3.6-slim as builder
 
 # Default Ansible Version
 ARG ANSIBLE=UNSET
@@ -9,9 +9,9 @@ RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
 RUN pip3 install --upgrade pip
 # RUN pip install --user  poetry==1.0.0
-RUN wget -quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
 RUN pip3 install --no-cache-dir --user -r requirements.txt
-RUN wget -quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
 RUN pip3 install --no-cache-dir --user -r requirements-dev.txt
 RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2}'); \
     if [ $ANSIBLE = "UNSET" ] || [ $ANSIBLE_VERSION = $ANSIBLE ]; \
@@ -21,7 +21,7 @@ RUN ANSIBLE_VERSION=$(pip3 freeze | grep -e 'ansible==' | awk -F '==' '{print $2
         pip3 install --no-cache-dir --user ansible==$ANSIBLE; fi
 
 
-FROM python:3.7-slim as runner
+FROM python:3.6-slim as runner
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
 LABEL com.example.version="1.0.2"
@@ -57,7 +57,7 @@ COPY --from=builder /root/.local/ /root/.local
 WORKDIR /projects
 
 # Install Oh My ZSH to provide improved shell
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 RUN echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc
 
 # Enable SSH Agent
