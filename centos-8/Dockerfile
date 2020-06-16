@@ -6,6 +6,7 @@ ARG ANSIBLE=UNSET
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
+# COPY requirements-test.txt .
 RUN pip3 install --upgrade pip
 # RUN pip install --user  poetry==1.0.0
 RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt

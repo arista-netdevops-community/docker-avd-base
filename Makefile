@@ -11,9 +11,9 @@ help: ## Display help message
 .PHONY: build
 build: ## Build docker image
 	if [ $(BRANCH) = 'master' ]; then \
-      docker build --rm -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
+      docker build --rm --pull -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
 	else \
-	  docker build --rm -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
+	  docker build --rm --pull -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
     fi
 
 .PHONY: run
