@@ -6,15 +6,22 @@ Image with all python requirements installed to then run [__Arista Validated Des
 
 __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdteam/base)
 
-## Available Tags
+## Description
+
+### Available Tags
 
 - [`latest`](centos-8/Dockerfile) / [`centos-8`](centos-8/Dockerfile)
-- [`centos-7`](centos-7/Dockerfile)
-- [`debian`](debian/Dockerfile)
+- [`centos-7`](centos-7/Dockerfile) (deprecated)
+- [`debian`](debian/Dockerfile) (deprecated)
 
-> Images with `dev-` prefix in tag are considered under development for different reasons (Dockerfile, requirements update, base image, ...) and are all coming from __devel__ branch of this repository. _Use them carefully._
+> Images with `devel-` prefix in tag are considered under development for different reasons (Dockerfile, requirements update, base image, ...) and are all coming from __devel__ branch of this repository. _Use them carefully._
 
-## Description
+### Available variables
+
+These variables are used in `ENTRYPOINT` to customize container content:
+
+- `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container bootup.
+- `AVD_ANSIBLE`: Ansible version to install in container when booting up
 
 ### Pull image
 
@@ -58,8 +65,8 @@ In this setup, collections are stored on your host, but all the requirements are
 
 ### Installed during container startup
 
-- No ENTRYPOINT configured
-- CMD is configured to run `zsh` as default shell
+- `ENTRYPOINT` configured to support ENV configuration.
+- `CMD` is configured to run `zsh` as default shell
 
 ## Build local images
 
@@ -67,23 +74,24 @@ You can use this repository to build your own version to test lib upgrade or a n
 
 - __`DOCKER_NAME`__: Name of the container. Default is `avdteam/base`
 - __`DOCKER_TAG`__: Docker tags is OS flavor running ansible. it is also folder where `Dockerfile` is.
-- __`ANSIBLE_VERSION`__: An optional version of ansible to replace version from AVD requirements. if not set, this value is not part of the name.
 - __`BRANCH`__: git branch from where you build your image. if name is master, then it is skipped
 
 ```
-DOCKER_NAME:BRANCH-DOCKER_TAG-ANSIBLE_VERSION
+DOCKER_NAME:BRANCH-DOCKER_TAG
 ```
 
 Examples:
 
-```
-$ docker images | grep avdteam
-avdteam/base                             devel-centos-8-2.9.9   4da4451a146c        11 minutes ago      710MB
-avdteam/base                             devel-debian           99dedc3f9612        3 hours ago         769MB
-avdteam/base                             debian                 8d390a65477b        4 hours ago         776MB
+```shell
+$ docker images avdteam/base
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+avdteam/base        devel-centos        3d4f4674300b        26 minutes ago      646MB
+avdteam/base        devel-alpine        56e4a9d36bdf        40 minutes ago      675MB
+avdteam/base        devel-centos-8      9038b3f595d8        8 hours ago         694MB
+avdteam/base        centos-8            2ba371bd49b5        9 hours ago         814MB
 ```
 
-### Simple build process
+### Build process
 
 ```shell
 $ make DOCKER_TAG=centos-8 build
@@ -99,29 +107,25 @@ Step 3/21 : RUN apt-get update
  ---> f052496c232e
 ```
 
+- Run container and get a shell
+
 ```shell
 $ make DOCKER_TAG=centos-8 run
+➜  /projects git:(devel) ✗
 ```
 
-### Build a docker with a specific ansible version
+- Run container with a specific version of ansible
 
 ```shell
-$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 build-test
-
-Sending build context to Docker daemon  4.608kB
-Step 1/21 : FROM python:3.7-slim as builder
- ---> 4cbd5021babc
-Step 2/21 : ARG ANSIBLE=UNSET
- ---> Using cache
- ---> a41a97dc49b3
-Step 3/21 : RUN apt-get update
- ---> Using cache
- ---> 4145c934c5d0
-Step 4/21 : RUN apt-get install -y --no-install-recommends build-essential gcc wget git
+$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 run
+Requirement file not found, skipping...
+Install ansible with version 2.9.9
+WARNING: Running pip install with root privileges is generally not a good idea. Try `pip3 install --user` instead.
+Collecting ansible==2.9.9
+[...]
+➜  /projects git:(devel) ✗
 ```
 
-To run a container:
+## License
 
-```shell
-$ make DOCKER_TAG=centos-8 ANSIBLE_VERSION=2.9.9 run-test
-```
+Project is published under [Apache 2.0 License](./LICENSE)
