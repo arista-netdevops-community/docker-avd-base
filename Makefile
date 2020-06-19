@@ -1,9 +1,13 @@
 CURRENT_DIR = $(shell pwd)
 DOCKER_NAME ?= avdteam/base
-DOCKER_TAG ?= centos-8
+FLAVOR ?= 3.6
+BRANCH ?= $(shell git symbolic-ref --short HEAD)
+# Docker ENV Var for run
 ANSIBLE_VERSION ?=
 PIP_REQ ?= NONE
-BRANCH ?= $(shell git symbolic-ref --short HEAD)
+# New Flavor creation
+TEMPLATE ?= _template
+
 
 .PHONY: help
 help: ## Display help message
@@ -12,9 +16,9 @@ help: ## Display help message
 .PHONY: build
 build: ## Build docker image
 	if [ $(BRANCH) = 'master' ]; then \
-      docker build --rm --pull -t $(DOCKER_NAME):$(DOCKER_TAG) $(DOCKER_TAG) ;\
+      docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR) $(FLAVOR) ;\
 	else \
-	  docker build --rm --pull -t $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) $(DOCKER_TAG) ;\
+	  docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) $(FLAVOR) ;\
     fi
 
 .PHONY: run
@@ -23,10 +27,16 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
-			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(DOCKER_TAG) ;\
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR) ;\
 	else \
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
-			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(BRANCH)-$(DOCKER_TAG) ;\
+			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) ;\
 	fi
+
+
+.PHONY: new-flavor
+new-flavor: ## Create a new python flavor
+	cp -r $(TEMPLATE) $(FLAVOR)
+	sed -i '' 's/FLAVOR/$(FLAVOR)/' $(FLAVOR)/Dockerfile

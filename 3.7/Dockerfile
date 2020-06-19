@@ -1,17 +1,18 @@
-FROM python:3.6-slim as builder
+FROM python:3.7-slim as BUILDER
 
-ENV PATH=/root/.local/bin:$PATH
+# FROM python:3.7-slim AS compile-image
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
+ENV PATH=/root/.local/bin:$PATH
 RUN pip3 install --upgrade pip
 RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
-RUN pip3 install --no-cache-dir --user -r requirements.txt
+RUN pip3 install --user  -r requirements.txt
 RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
-RUN pip3 install --no-cache-dir --user -r requirements-dev.txt
+RUN pip3 install --user  -r requirements-dev.txt
 
 
-FROM python:3.6-slim as runner
+FROM python:3.7-slim as BASE
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
 LABEL com.example.version="1.0.2"
@@ -19,9 +20,11 @@ LABEL vendor1="Arista"
 LABEL com.example.release-date="2020-06-17"
 LABEL com.example.version.is-production="False"
 
+# Default ARG values
+# Set term option
+ARG TERM=xterm
+
 ENV DEBIAN_FRONTEND noninteractive
-ENV PIP_PACKAGES "cryptography"
-ENV PATH=/root/.local/bin:$PATH
 
 # Install dependencies.
 RUN apt-get update \
@@ -36,7 +39,7 @@ RUN apt-get update \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
 
-COPY --from=builder /root/.local/ /root/.local
+COPY --from=BUILDER /root/.local/ /root/.local
 COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 
