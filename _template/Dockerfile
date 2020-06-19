@@ -1,9 +1,10 @@
-FROM python:3.6-slim as builder
+FROM python:FLAVOR-slim as BUILDER
 
 # FROM python:3.7-slim AS compile-image
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
+ENV PATH=/root/.local/bin:$PATH
 RUN pip3 install --upgrade pip
 RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
 RUN pip3 install --user  -r requirements.txt
@@ -11,7 +12,7 @@ RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/de
 RUN pip3 install --user  -r requirements-dev.txt
 
 
-FROM centos:8 as base
+FROM python:FLAVOR-slim as BASE
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
 LABEL com.example.version="1.0.2"
@@ -23,32 +24,22 @@ LABEL com.example.version.is-production="False"
 # Set term option
 ARG TERM=xterm
 
-# Install necessary packages
-# Install systemd -- See https://hub.docker.com/_/centos/
-RUN yum clean all; \
-    (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
-    rm -f /lib/systemd/system/multi-user.target.wants/*;\
-    rm -f /etc/systemd/system/*.wants/*;\
-    rm -f /lib/systemd/system/local-fs.target.wants/*; \
-    rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
-    rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
-    rm -f /lib/systemd/system/basic.target.wants/*;\
-    rm -f /lib/systemd/system/anaconda.target.wants/*;
+ENV DEBIAN_FRONTEND noninteractive
 
-# Install YUM requirements.
-RUN yum -y install epel-release initscripts \
-    && yum -y install \
-    findutils \
-    git \
-    which \
-    zsh \
+# Install dependencies.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
     wget \
-    python3 \
+    git \
+    zsh \
     git-extras \
-    net-tools \
-    && yum clean all
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+    && apt-get clean
 
-COPY --from=builder /root/.local/ /root/.local
+COPY --from=BUILDER /root/.local/ /root/.local
 COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 
@@ -57,11 +48,13 @@ WORKDIR /projects
 VOLUME ["/projects"]
 
 # Install Oh My ZSH to provide improved shell
-# Force to switch to ZSH even if bash is started explicitely
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
+
+# Enable SSH Agent
+RUN echo 'eval `ssh-agent -s`' >> $HOME/.zshrc
 
 # Use ZSH as default shell with default oh-my-zsh theme
 ENV PATH=$PATH:/root/.local/bin
