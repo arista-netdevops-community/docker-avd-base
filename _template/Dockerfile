@@ -29,7 +29,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    build-essential \
+    make \
     wget \
     git \
     zsh \
@@ -52,9 +52,6 @@ RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/inst
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
-
-# Enable SSH Agent
-RUN echo 'eval `ssh-agent -s`' >> $HOME/.zshrc
 
 # Use ZSH as default shell with default oh-my-zsh theme
 ENV PATH=$PATH:/root/.local/bin
