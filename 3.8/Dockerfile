@@ -4,6 +4,7 @@ FROM python:3.8-slim as BUILDER
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc wget git
 
+ENV PATH=/root/.local/bin:$PATH
 RUN pip3 install --upgrade pip
 RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
 RUN pip3 install --user  -r requirements.txt
@@ -24,17 +25,16 @@ LABEL com.example.version.is-production="False"
 ARG TERM=xterm
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PIP_PACKAGES "cryptography"
-ENV PATH=/root/.local/bin:$PATH
 
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+    make \
     wget \
     git \
     zsh \
-    make \
     git-extras \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -50,6 +50,7 @@ VOLUME ["/projects"]
 # Install Oh My ZSH to provide improved shell
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
+    && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
 
 # Use ZSH as default shell with default oh-my-zsh theme
