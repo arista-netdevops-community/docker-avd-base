@@ -33,6 +33,8 @@ RUN apt-get update \
     wget \
     git \
     zsh \
+    vim \
+    sshpass \
     git-extras \
     openssh-client \
     && rm -rf /var/lib/apt/lists/* \
