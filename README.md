@@ -18,9 +18,9 @@ __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdt
 
 ### Available variables
 
-These variables are used in `CMD` to customize container content:
+These variables are used in `CMD` to customize container content using [`-e` option of docker](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e---env---env-file) cli:
 
-- `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container bootup.
+- `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container startup.
 - `AVD_ANSIBLE`: Ansible version to install in container when booting up
 
 To see how to customize your container with this option, you can refer to [How to install ansible and Python requirements page](docs/run-options.md)
@@ -30,23 +30,6 @@ To see how to customize your container with this option, you can refer to [How t
 This image can be leveraged in different use-cases such as ansible or gNMI automation for Arista products.
 
 In every scenario, you can use an isolated shell to test your automation workflow or you can start a shell with a mount point to use your local content.
-
-### Run container
-
-#### Start isolated shell
-
-```shell
-$ docker run --rm -it avdteam/base:3.6
-➜  /projects
-```
-
-#### Start shell in your project
-
-```shell
-$ docker run --rm -it -v ${PWD}:/projects avdteam/base:3.6
-➜  /projects ls
-Makefile  README.md  activate-arista.cvp-logs.env
-```
 
 ### Arista Validated Design
 
@@ -63,10 +46,65 @@ Docker image has been extended to support all Arista automation tools.
 
 Here are some EOS automation examples leveraging [__`avdteam/base`__](https://hub.docker.com/repository/docker/avdteam/base):
 
-- eAPI automation example [repository](https://github.com/arista-netdevops-community/arista_eos_automation_with_eAPI)
-- Ansible automation example [repository](https://github.com/arista-netdevops-community/arista_eos_automation_with_ansible)
-- Pyang and Pyangbind example [repository](https://github.com/arista-netdevops-community/gnmi_demo_with_arista_eos)
-- Netconf [example](https://github.com/arista-netdevops-community/arista_eos_automation_with_ncclient)
+- [eAPI automation example repository](https://github.com/arista-netdevops-community/arista_eos_automation_with_eAPI)
+- [Ansible automation repository](https://github.com/arista-netdevops-community/arista_eos_automation_with_ansible)
+- [Pyang and Pyangbind repository](https://github.com/arista-netdevops-community/gnmi_demo_with_arista_eos)
+- [Netconf example](https://github.com/arista-netdevops-community/arista_eos_automation_with_ncclient)
+
+
+## Run container
+
+### Start isolated shell
+
+```shell
+$ docker run --rm -it avdteam/base:3.6
+➜  /projects
+```
+
+You can also configure your shell with an alias to make it easy to start container
+
+```shell
+# Configure alias in bashrc
+alias avd-shell='docker run -it --rm avdteam/base:latest zsh'
+
+# Run alias command
+$ avd-shell
+➜  /projects
+```
+
+### Start shell in your project
+
+```shell
+$ docker run --rm -it -v ${PWD}:/projects avdteam/base:3.6
+➜  /projects ls
+Makefile  README.md  activate-arista.cvp-logs.env
+```
+
+You can also configure your shell with an alias to make it easy to start container
+
+```shell
+# Configure alias in bashrc
+alias avd-shell='docker run -it --rm \
+	-v ${PWD}/:/projects \
+	avdteam/base:latest zsh'
+
+# Run alias command
+$ avd-shell
+➜  /projects
+Makefile  README.md  activate-arista.cvp-logs.env
+```
+
+### Update container image
+
+To update container image, just run docker command:
+
+```shell
+$ docker pull avdteam/base:3.6
+3.6: Pulling from avdteam/base
+Digest: sha256:1602b5ab710c3a3ac9a8e93c1672c295afcd262c01b6201c0f5f83b50ff42705
+Status: Image is up to date for avdteam/base:3.6
+docker.io/avdteam/base:3.6
+```
 
 ## Additional Resources
 
