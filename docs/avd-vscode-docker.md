@@ -4,17 +4,7 @@
 
 This how-to explains how to leverage __avdteam/base__ image as shell under [VScode](https://code.visualstudio.com/) to get a consistent developement and testing environment regardless operating system running Ansible. This how-to is applicable to any OS where VScode can be installed.
 
-## Devcontainer with docker image
-
-### Requirements
-
-- [VScode](https://code.visualstudio.com/) installed on your system.
-- [Docker installed](https://docs.docker.com/get-docker/) and running.
-- GIT installed and configured.
-
-For windows user, [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) should be configured on your system
-
-### Configure AVD environment
+## Configure AVD environment
 
 Before running all code with a container, we have to download current AVD ecosystem with the following command:
 
@@ -46,11 +36,19 @@ drwxrwxr-x  8 tom tom 4096 Jul 20 09:09 ansible-avd-cloudvision-demo
 drwxrwxr-x  9 tom tom 4096 Jul 20 09:09 ansible-cvp
 ```
 
+## Devcontainer with docker image
+
+### Requirements
+
+- [VScode](https://code.visualstudio.com/) installed on your system.
+- [Docker installed](https://docs.docker.com/get-docker/) and running.
+- GIT installed and configured.
+
+For windows user, [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) should be configured on your system
+
 ### Configure devcontainer
 
 VScode provides a function to open a workspace in either remote ssh server, in a WSL instance (for windows only) or [in a container](https://code.visualstudio.com/docs/remote/containers). In this how-to, we will leverage this functionality with [__`avdteam/base`__](https://hub.docker.com/repository/docker/avdteam/base)
-
-- On Linux or Macos:
 
 ```shell
 $ pwd 
@@ -131,40 +129,7 @@ Agent pid 186
 
 For windows user, [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) should be configured on your system
 
-### Configure AVD environment
-
-Before running all code with a container, we have to download current AVD ecosystem with the following command:
-
-- On Linux or Macos:
-
-```shell
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh)"
-```
-
-- On Windows:
-
-```shell
-PS C:\Users\User> Invoke-WebRequest -OutFile install.sh -Uri \
-https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh
-
-PS C:\Users\User> bash install.sh
-```
-
-This script git clone AVD and CVP collection as well as example repository to get started with example.
-
-```shell
-$ cd ansible-arista
-
-$ ls -al
-total 24
--rw-rw-r--  1 tom tom 2517 Jul 20 09:09 Makefile
-drwxrwxr-x  8 tom tom 4096 Jul 20 09:09 ansible-avd
-drwxrwxr-x  8 tom tom 4096 Jul 20 09:09 ansible-avd-cloudvision-demo
-drwxrwxr-x  9 tom tom 4096 Jul 20 09:09 ansible-cvp
-```
-
 ### Configure devcontainer
-
 
 VScode provides a function to open a workspace in either remote ssh server, in a WSL instance (for windows only) or [in a container](https://code.visualstudio.com/docs/remote/containers). In this how-to, we will leverage this functionality with [__`avdteam/base`__](https://hub.docker.com/repository/docker/avdteam/base)
 
