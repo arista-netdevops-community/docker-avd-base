@@ -155,7 +155,6 @@ Copy following content to `devcontainer.json`:
 	"service": "ansible",
 	"workspaceFolder": "/projects",
 	
-	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/zsh"
 	},
