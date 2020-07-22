@@ -14,11 +14,30 @@ __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdt
 
 ### Installed during container startup
 
-- [`ENTRYPOINT`](./../_template/entrypoint.sh) configured to support ENV configuration.
-- `CMD` is configured to run `zsh` as default shell
+- [`CMD`](./../_template/entrypoint.sh) configured to support ENV configuration.
 
-```docker
-CMD [ "/bin/entrypoint.sh" ]
+CMD script example:
+
+```shell
+#!/bin/bash
+
+# Install specific requirement file
+if [ ! -z "${AVD_REQUIREMENTS}" ]; then
+  if [ -f ${AVD_REQUIREMENTS} ]; then
+    echo "Install new requirements from ${AVD_REQUIREMENTS}"
+    pip3 install --user -r ${AVD_REQUIREMENTS}
+  else
+    echo "Requirement file not found, skipping..."
+  fi
+fi
+
+# Install specific ANSIBLE version
+if [ ! -z "${AVD_ANSIBLE}" ]; then
+    echo "Install ansible with version ${AVD_ANSIBLE}"
+    pip3 install --user ansible==${AVD_ANSIBLE}
+fi
+
+exec /bin/zsh
 ```
 
 ## Build local images
