@@ -9,7 +9,7 @@ This how-to explains how to leverage __avdteam/base__ image as shell under [VSco
 ### Requirements
 
 - [VScode](https://code.visualstudio.com/) installed on your system.
-- Docker installed and running.
+- [Docker installed](https://docs.docker.com/get-docker/) and running.
 - GIT installed and configured.
 
 For windows user, [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) should be configured on your system
@@ -27,7 +27,8 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/aristanetworks/ansible-a
 - On Windows:
 
 ```shell
-PS C:\Users\User> Invoke-WebRequest -OutFile install.sh -Uri https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh
+PS C:\Users\User> Invoke-WebRequest -OutFile install.sh -Uri \
+https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh
 
 PS C:\Users\User> bash install.sh
 ```
@@ -68,9 +69,7 @@ Copy following content to `devcontainer.json`:
 {
     "name": "AVD development",
     "image": "avdteam/base:3.6",
-    //"dockerFile": "Dockerfile",
 
-    // Use 'settings' to set *default* container specific settings.json values on container create. 
     "settings": {
         "terminal.integrated.shell.linux": "/bin/zsh",
         "python.linting.enabled": true,
@@ -81,8 +80,6 @@ Copy following content to `devcontainer.json`:
         "python.linting.pylintPath": "/root/.local/bin/pylint",
         "python.testing.pytestPath": "/root/.local/bin/pytest"
     },
-
-    // Add the IDs of extensions you want installed when the container is created in the array below.
     "extensions": [
          "ms-python.python",
          "vscoss.vscode-ansible",
@@ -106,3 +103,20 @@ After you configured `.devcontainer/devcontainer.json` correctly, you can open V
 
 ![](../medias/vscode-docker-open-container.png)
 
+VScode will do the following configuration:
+
+- Download [__`avdteam/base`__](https://hub.docker.com/repository/docker/avdteam/base)
+- Install extensions in new container
+- Configure paths for python tools
+- Configure path for ansible.cfg (to fix issue with windows and mount point)
+
+Once container is running, you can continue to edit your files in VScode and your shell will be executed inside a container.
+
+
+```shell
+Agent pid 186
+➜  arista-ansible pwd
+/workspaces/arista-ansible
+
+➜  arista-ansible 
+```
