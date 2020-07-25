@@ -4,6 +4,19 @@
 
 This how-to explains how to leverage __avdteam/base__ image as shell under [VScode](https://code.visualstudio.com/) to get a consistent developement and testing environment regardless operating system running Ansible. This how-to is applicable to any OS where VScode can be installed.
 
+__Table of content__
+- [How to use AVD image with VSCODE](#how-to-use-avd-image-with-vscode)
+  - [About](#about)
+  - [Configure AVD environment](#configure-avd-environment)
+  - [Devcontainer with docker image](#devcontainer-with-docker-image)
+    - [Requirements](#requirements)
+    - [Configure devcontainer](#configure-devcontainer)
+    - [Open content in container](#open-content-in-container)
+  - [Devcontainer with docker image](#devcontainer-with-docker-image-1)
+    - [Requirements](#requirements-1)
+    - [Configure devcontainer](#configure-devcontainer-1)
+    - [Open content in container](#open-content-in-container-1)
+
 ## Configure AVD environment
 
 Before running all code with a container, we have to download current AVD ecosystem with the following command:
@@ -51,7 +64,7 @@ For windows user, [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win
 VScode provides a function to open a workspace in either remote ssh server, in a WSL instance (for windows only) or [in a container](https://code.visualstudio.com/docs/remote/containers). In this how-to, we will leverage this functionality with [__`avdteam/base`__](https://hub.docker.com/repository/docker/avdteam/base)
 
 ```shell
-$ pwd 
+$ pwd
 /home/tom/arista-ansible
 
 # create VScode folder
@@ -78,6 +91,7 @@ Copy following content to `devcontainer.json`:
         "python.linting.pylintPath": "/root/.local/bin/pylint",
         "python.testing.pytestPath": "/root/.local/bin/pytest"
     },
+
     "extensions": [
          "ms-python.python",
          "vscoss.vscode-ansible",
@@ -87,12 +101,21 @@ Copy following content to `devcontainer.json`:
          "jebbs.markdown-extended",
          "donjayamanne.python-extension-pack",
          "njpwerner.autodocstring",
-         "quicktype.quicktype"
+         "quicktype.quicktype",
+         "jack89ita.copy-filename",
+         "mhutchie.git-graph",
+         "eamodio.gitlens",
+         "yzhang.markdown-all-in-one",
+         "davidanson.vscode-markdownlint",
+         "christian-kohler.path-intellisense",
+         "ms-python.vscode-pylance",
+         "tht13.python"
     ],
-    "containerEnv": { 
+    "containerEnv": {
         "ANSIBLE_CONFIG": "./ansible.cfg"
     }
 }
+
 ```
 
 ### Open content in container
@@ -116,8 +139,10 @@ Agent pid 186
 ➜  arista-ansible pwd
 /workspaces/arista-ansible
 
-➜  arista-ansible 
+➜  arista-ansible
 ```
+
+> When using devcontainer feature, git information is shared from host and allow user to run git commands with all correct information.
 
 ## Devcontainer with docker image
 
@@ -136,7 +161,7 @@ VScode provides a function to open a workspace in either remote ssh server, in a
 - On Linux or Macos:
 
 ```shell
-$ pwd 
+$ pwd
 /home/tom/arista-ansible
 
 # create VScode folder
@@ -150,28 +175,36 @@ Copy following content to `devcontainer.json`:
 
 ```json
 {
-	"name": "Docker from Docker Compose",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "ansible",
-	"workspaceFolder": "/projects",
-	
-	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/zsh"
+  "name": "Docker from Docker Compose",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "ansible",
+  "workspaceFolder": "/projects",
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
 	},
 
-    "extensions": [
-		"ms-python.python",
-		"vscoss.vscode-ansible",
-		"timonwong.ansible-autocomplete",
-		"codezombiech.gitignore",
-		"tuxtina.json2yaml",
-		"jebbs.markdown-extended",
-		"donjayamanne.python-extension-pack",
-		"njpwerner.autodocstring",
-		"quicktype.quicktype"
+  "extensions": [
+         "ms-python.python",
+         "vscoss.vscode-ansible",
+         "timonwong.ansible-autocomplete",
+         "codezombiech.gitignore",
+         "tuxtina.json2yaml",
+         "jebbs.markdown-extended",
+         "donjayamanne.python-extension-pack",
+         "njpwerner.autodocstring",
+         "quicktype.quicktype",
+         "jack89ita.copy-filename",
+         "mhutchie.git-graph",
+         "eamodio.gitlens",
+         "yzhang.markdown-all-in-one",
+         "davidanson.vscode-markdownlint",
+         "christian-kohler.path-intellisense",
+         "ms-python.vscode-pylance",
+         "tht13.python"
    ],
-   "containerEnv": { 
-	   "ANSIBLE_CONFIG": "./ansible.cfg"
+   "containerEnv": {
+	    "ANSIBLE_CONFIG": "./ansible.cfg"
    }
 }
 ```
@@ -228,7 +261,7 @@ Agent pid 186
 ➜  arista-ansible pwd
 /workspaces/arista-ansible
 
-➜  arista-ansible 
+➜  arista-ansible
 ```
 
 For other containers, you can access to documentation using your browser and following URLs:
