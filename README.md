@@ -1,10 +1,24 @@
 ![](https://img.shields.io/badge/Arista-CVP%20Automation-blue)  ![](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/docker-avd-base) ![Docker Pulls](https://img.shields.io/docker/pulls/avdteam/base) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/avdteam/base/latest) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/avdteam/base/latest)
 # AVD Base Image
 
-
 Image with all python requirements installed to then run [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection with a minimal configuration overhead. It can be used to support local development using following workflow
 
 __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdteam/base)
+
+__Table of content__
+- [AVD Base Image](#avd-base-image)
+	- [Description](#description)
+		- [Available Tags](#available-tags)
+		- [Available variables](#available-variables)
+	- [How to leverage image](#how-to-leverage-image)
+		- [Arista Validated Design](#arista-validated-design)
+		- [Generic Arista Automation Purpose](#generic-arista-automation-purpose)
+	- [Run container](#run-container)
+		- [Start isolated shell](#start-isolated-shell)
+		- [Start shell in your project](#start-shell-in-your-project)
+		- [Update container image](#update-container-image)
+	- [Additional Resources](#additional-resources)
+	- [License](#license)
 
 ## Description
 
@@ -50,7 +64,6 @@ Here are some EOS automation examples leveraging [__`avdteam/base`__](https://hu
 - [Ansible automation repository](https://github.com/arista-netdevops-community/arista_eos_automation_with_ansible)
 - [Pyang and Pyangbind repository](https://github.com/arista-netdevops-community/gnmi_demo_with_arista_eos)
 - [Netconf example](https://github.com/arista-netdevops-community/arista_eos_automation_with_ncclient)
-
 
 ## Run container
 
@@ -110,6 +123,7 @@ docker.io/avdteam/base:3.6
 
 - [Build and Maintain avd-docker-image](docs/image-info.md)
 - [Options to run avd image and make custom container](docs/run-options.md)
+- [Leverage avdteam/base image in VSCode for development and testing](docs/avd-vscode-docker.md)
 
 ## License
 
