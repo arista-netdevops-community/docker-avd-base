@@ -5,7 +5,7 @@ Image with all python requirements installed to then run [__Arista Validated Des
 
 __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdteam/base)
 
-<center><img src="medias/AVD%20-%20Docker%20Logo%20transparent%20bg.png" alt="Arista AVD Docker Image" width="400"/></center>
+<p align="center"><img src="medias/AVD%20-%20Docker%20Logo%20transparent%20bg.png" alt="Arista AVD Docker Image" width="400"/></p>
 
 __Table of content__
 - [AVD Base Image](#avd-base-image)
