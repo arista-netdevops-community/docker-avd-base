@@ -48,8 +48,9 @@ COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 
 # Create the /project directory and add it as a mountpoint
-WORKDIR /projects
-VOLUME ["/projects"]
+
+RUN useradd -md /home/avd -s /bin/zsh -u 1000 avd
+USER avd
 
 # Install Oh My ZSH to provide improved shell
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
@@ -57,6 +58,11 @@ RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/inst
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.zshrc
 
+# Set default folder
+WORKDIR /projects
+VOLUME ["/projects"]
+
 # Use ZSH as default shell with default oh-my-zsh theme
 ENV PATH=$PATH:/root/.local/bin
+USER root
 CMD [ "/bin/entrypoint.sh" ]

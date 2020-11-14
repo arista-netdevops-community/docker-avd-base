@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Install specific requirement file
 if [ ! -z "${AVD_REQUIREMENTS}" ]; then
   if [ -f ${AVD_REQUIREMENTS} ]; then
@@ -16,4 +17,15 @@ if [ ! -z "${AVD_ANSIBLE}" ]; then
     pip3 install --user ansible==${AVD_ANSIBLE}
 fi
 
-exec /bin/zsh
+# Reconfigure AVD User id if set by user
+if [ ! -z "${AVD_UID}" ]; then
+  echo "Update uid for user avd with ${AVD_UID}"
+  usermod -u ${AVD_UID} avd
+fi
+
+if [ ! -z "${AVD_GID}" ]; then
+  echo "Update gid for group avd with ${AVD_GID}"
+  groupmod -g ${AVD_GID} avd
+fi
+
+su - avd -c /bin/zsh
