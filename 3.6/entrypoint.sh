@@ -28,4 +28,6 @@ if [ ! -z "${AVD_GID}" ]; then
   groupmod -g ${AVD_GID} avd
 fi
 
-su - avd -c /bin/zsh
+export PATH=$PATH:/home/avd/.local/bin
+cd /projects/
+su - avd -c "cd /projects && /bin/zsh"
