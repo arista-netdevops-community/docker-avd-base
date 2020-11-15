@@ -53,20 +53,21 @@ RUN useradd -md /home/avd -s /bin/zsh -u 1000 avd
 USER avd
 
 # Copy python collection
-COPY --from=BUILDER /root/.local/ /home/avd/.local
+COPY --from=BUILDER /home/avd/.local/ /home/avd/.local
+ENV PATH=$PATH:/home/avd/.local/bin
 
 # Install Oh My ZSH to provide improved shell
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
-    && echo 'export TERM=xterm' >>  $HOME/.zshrc
+    && echo 'export TERM=xterm' >>  $HOME/.zshrc \
+    && echo 'export PATH=$PATH:/home/avd/.local/bin' >> $HOME/.zshrc
 
 # Set default folder
 WORKDIR /projects
 VOLUME ["/projects"]
 
 # Use ZSH as default shell with default oh-my-zsh theme
-ENV PATH=$PATH:/home/avd/.local/bin
 USER root
 COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
