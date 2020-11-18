@@ -24,14 +24,14 @@ Before running all code with a container, we have to download current AVD ecosys
 - On Linux or Macos:
 
 ```shell
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh)"
+$ curl -fsSL https://get.avd.sh | sh
 ```
 
 - On Windows:
 
 ```shell
 PS C:\Users\User> Invoke-WebRequest -OutFile install.sh -Uri \
-https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/install.sh
+https://raw.githubusercontent.com/arista-netdevops-community/avd-install/master/install.sh
 
 PS C:\Users\User> bash install.sh
 ```
