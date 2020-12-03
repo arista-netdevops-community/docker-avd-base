@@ -49,7 +49,12 @@ RUN apt-get update \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
 
+RUN curl -fsSL https://get.docker.com | sh
 RUN useradd -md /home/avd -s /bin/zsh -u 1000 avd
+RUN usermod -aG docker avd\
+    && usermod -aG sudo avd \
+    && echo "avd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 USER avd
 
 # Copy python collection
@@ -61,6 +66,8 @@ RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/inst
     && echo 'plugins=(ansible common-aliases safe-paste git jsontools history git-extras)' >> $HOME/.zshrc \
     && echo 'eval `ssh-agent -s`' >> $HOME/.zshrc \
     && echo 'export TERM=xterm' >>  $HOME/.zshrc \
+    && echo "export LC_ALL=C.UTF-8" >> $HOME/.zshrc \
+    && echo "export LANG=C.UTF-8" >> $HOME/.zshrc \
     && echo 'export PATH=$PATH:/home/avd/.local/bin' >> $HOME/.zshrc
 
 # Set default folder
