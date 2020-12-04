@@ -26,9 +26,20 @@ __Table of content__
 
 ### Available Tags
 
+#### Latest
+
 - [`3.6`](3.6/Dockerfile)
 - [`3.7`](3.7/Dockerfile)
 - [`3.8`](3.8/Dockerfile) / (latest)
+
+#### Stable version
+
+- `3.6-v<git-tag>`
+- `3.7-v<git-tag>`
+- `3.8-v<git-tag>`
+
+#### Deprecated
+
 - [`centos-7`](centos-7/Dockerfile) (deprecated)
 - [`centos-8`](centos-8/Dockerfile) (deprecated)
 
