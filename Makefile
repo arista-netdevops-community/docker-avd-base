@@ -7,7 +7,8 @@ ANSIBLE_VERSION ?=
 PIP_REQ ?= NONE
 # New Flavor creation
 TEMPLATE ?= _template
-
+UID ?= 1000
+GID ?= 1000
 
 .PHONY: help
 help: ## Display help message
@@ -27,11 +28,15 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
+			-e AVD_UID=$(UID) \
+			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR) ;\
 	else \
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
+			-e AVD_UID=$(UID) \
+			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) ;\
 	fi
 

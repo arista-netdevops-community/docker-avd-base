@@ -26,9 +26,7 @@ __Table of content__
 
 ### Available Tags
 
-#### Latest
-
-- [`3.6`](3.6/Dockerfile)
+- [`3.6`](3.6/Dockerfile)*
 - [`3.7`](3.7/Dockerfile)
 - [`3.8`](3.8/Dockerfile) / (latest)
 
@@ -42,6 +40,9 @@ __Table of content__
 
 - [`centos-7`](centos-7/Dockerfile) (deprecated)
 - [`centos-8`](centos-8/Dockerfile) (deprecated)
+``
+
+Current image used in AVD development: `avdteam/base:3.6`
 
 ### Available variables
 
@@ -49,8 +50,10 @@ These variables are used in `CMD` to customize container content using [`-e` opt
 
 - `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container startup.
 - `AVD_ANSIBLE`: Ansible version to install in container when booting up
+- `AVD_UID`: set __uid__ for avd user in container.
+- `AVD_GID`: set __gid__ for avd user in container.
 
-To see how to customize your container with this option, you can refer to [How to install ansible and Python requirements page](docs/run-options.md)
+To see how to customize your container with these options, you can refer to [How to install ansible and Python requirements page](docs/run-options.md)
 
 ## How to leverage image
 
