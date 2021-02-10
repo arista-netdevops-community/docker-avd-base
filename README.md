@@ -11,6 +11,8 @@ __Table of content__
 - [AVD Base Image](#avd-base-image)
 	- [Description](#description)
 		- [Available Tags](#available-tags)
+			- [Stable version](#stable-version)
+			- [Deprecated](#deprecated)
 		- [Available variables](#available-variables)
 	- [How to leverage image](#how-to-leverage-image)
 		- [Arista Validated Design](#arista-validated-design)
@@ -52,6 +54,12 @@ These variables are used in `CMD` to customize container content using [`-e` opt
 - `AVD_ANSIBLE`: Ansible version to install in container when booting up
 - `AVD_UID`: set __uid__ for avd user in container.
 - `AVD_GID`: set __gid__ for avd user in container.
+- `AVD_GIT_USER`: Username to configure in .gitconfig file.
+  - Can be set with `AVD_GIT_USER=$(git config --get user.name)`
+- `AVD_GIT_EMAIL`: Email to configure in .gitconfig file.
+  - Can be set with `AVD_GIT_EMAIL=$(git config --get user.email)`
+
+
 
 To see how to customize your container with these options, you can refer to [How to install ansible and Python requirements page](docs/run-options.md)
 

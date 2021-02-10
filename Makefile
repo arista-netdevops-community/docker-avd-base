@@ -28,6 +28,8 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
+			-e AVD_GIT_USER="$(git config --get user.name)" \
+			-e AVD_GIT_EMAIL="$(git config --get user.email)" \
 			-e AVD_UID=$(UID) \
 			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR) ;\
@@ -35,6 +37,8 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
+			-e AVD_GIT_USER="$(git config --get user.name)" \
+			-e AVD_GIT_EMAIL="$(git config --get user.email)" \
 			-e AVD_UID=$(UID) \
 			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) ;\
