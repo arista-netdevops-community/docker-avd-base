@@ -11,6 +11,8 @@ __Table of content__
 - [AVD Base Image](#avd-base-image)
 	- [Description](#description)
 		- [Available Tags](#available-tags)
+			- [Stable version](#stable-version)
+			- [Deprecated](#deprecated)
 		- [Available variables](#available-variables)
 	- [How to leverage image](#how-to-leverage-image)
 		- [Arista Validated Design](#arista-validated-design)
@@ -26,9 +28,10 @@ __Table of content__
 
 ### Available Tags
 
-- [`3.6`](3.6/Dockerfile)*
+- [`3.6`](3.6/Dockerfile) *
 - [`3.7`](3.7/Dockerfile)
 - [`3.8`](3.8/Dockerfile) / (latest)
+- [`3.9`](3.9/Dockerfile)
 
 #### Stable version
 
