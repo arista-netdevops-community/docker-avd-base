@@ -17,9 +17,9 @@ help: ## Display help message
 .PHONY: build
 build: ## Build docker image
 	if [ $(BRANCH) = 'master' ]; then \
-      docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR) $(FLAVOR) ;\
+      docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR) -f $(FLAVOR)/Dockerfile .;\
 	else \
-	  docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) $(FLAVOR) ;\
+	  docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) -f $(FLAVOR)/Dockerfile .;\
     fi
 
 .PHONY: run
@@ -28,8 +28,8 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
-			-e AVD_GIT_USER=$(git config --get user.name) \
-			-e AVD_GIT_EMAIL=$(git config --get user.email) \
+			-e AVD_GIT_USER="$(shell git config --get user.name)" \
+			-e AVD_GIT_EMAIL="$(shell git config --get user.email)" \
 			-e AVD_UID=$(UID) \
 			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR) ;\
@@ -37,8 +37,8 @@ run: ## run docker image
 		docker run --rm -it -v $(CURRENT_DIR)/:/projects \
 			-e AVD_REQUIREMENTS=$(PIP_REQ) \
 			-e AVD_ANSIBLE=$(ANSIBLE_VERSION) \
-			-e AVD_GIT_USER=$(git config --get user.name) \
-			-e AVD_GIT_EMAIL=$(git config --get user.email) \
+			-e AVD_GIT_USER="$(shell git config --get user.name)" \
+			-e AVD_GIT_EMAIL="$(shell git config --get user.email)" \
 			-e AVD_UID=$(UID) \
 			-e AVD_GID=$(GID) \
 			-v /etc/hosts:/etc/hosts $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) ;\
