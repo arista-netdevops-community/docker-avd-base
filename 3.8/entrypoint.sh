@@ -24,14 +24,22 @@ if [ ! -z "${AVD_ANSIBLE}" ]; then
 fi
 
 # Reconfigure AVD User id if set by user
-if [ ! -z "${AVD_UID}" ]; then
-  echo "Update uid for user avd with ${AVD_UID}"
-  usermod -u ${AVD_UID} avd
+if [ ! -z "${AVD_UID}" ] && [ "${AVD_UID}" != "`id -u avd`" ] ; then
+  echo -n "Update uid for user avd with ${AVD_UID}"
+  # usermod -u ${AVD_UID} avd
+  sed -i -e "s/^avd:\([^:]*\):[0-9]*:\([0-9]*\)/avd:\1:${AVD_UID}:\2/" /etc/passwd
+  echo "... updated"
+else
+  echo "No UID provided, ... skipping it"
 fi
 
-if [ ! -z "${AVD_GID}" ]; then
-  echo "Update gid for group avd with ${AVD_GID}"
-  groupmod -g ${AVD_GID} avd
+if [ -n "${AVD_GID}" ] && [ "${AVD_GID}" != "`id -g avd`" ] ; then
+  echo -n "Update gid for group avd with ${AVD_GID}"
+  sed -i -e "s/^avd:\([^:]*\):[0-9]*/avd:\1:${AVD_GID}/" /etc/group
+  sed -i -e "s/^avd:\([^:]*\):\([0-9]*\):[0-9]*/avd:\1:\2:${AVD_GID}/" /etc/passwd
+  echo "... updated"
+else
+  echo "skipping GID configuration"
 fi
 
 # Update gitconfig with username and email
@@ -54,8 +62,11 @@ if [ -S ${DOCKER_SOCKET} ]; then
     sudo chmod 666 /var/run/docker.sock &>/dev/null
 fi
 
+# Fix file permission after changing UID and GID
+chown avd:avd /home/avd
+
 export PATH=$PATH:/home/avd/.local/bin
 export LC_ALL=C.UTF-8
 
 cd /projects/
-su - avd -c "cd /projects && /bin/zsh"
+su - avd -c "cd /projects && export ZSH_DISABLE_COMPFIX=true && /bin/zsh"
