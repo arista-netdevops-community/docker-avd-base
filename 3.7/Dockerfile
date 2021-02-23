@@ -79,6 +79,6 @@ VOLUME ["/projects"]
 
 # Use ZSH as default shell with default oh-my-zsh theme
 USER root
-COPY files/gitconfig /home/avd/.gitconfig
+COPY files/entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 CMD [ "/bin/entrypoint.sh" ]
