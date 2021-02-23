@@ -62,7 +62,7 @@ COPY --from=BUILDER /home/avd/.local/ /home/avd/.local
 ENV PATH=$PATH:/home/avd/.local/bin
 
 # Copy gitconfig file
-COPY gitconfig /home/avd/.gitconfig
+COPY files/gitconfig /home/avd/.gitconfig
 
 # Install Oh My ZSH to provide improved shell
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
@@ -79,6 +79,6 @@ VOLUME ["/projects"]
 
 # Use ZSH as default shell with default oh-my-zsh theme
 USER root
-COPY entrypoint.sh /bin/entrypoint.sh
+COPY files/entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 CMD [ "/bin/entrypoint.sh" ]
