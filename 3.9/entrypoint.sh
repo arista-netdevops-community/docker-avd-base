@@ -65,11 +65,6 @@ if [ -S ${DOCKER_SOCKET} ]; then
     sudo chmod 666 /var/run/docker.sock &>/dev/null
 fi
 
-# Fix file permission after changing UID and GID
-chown avd:avd /home/avd
-chown -R avd:avd /home/avd/.local/bin/
-chown -R avd:avd /home/avd/.local/lib/
-
 export PATH=$PATH:/home/avd/.local/bin
 export LC_ALL=C.UTF-8
 
