@@ -42,6 +42,7 @@ RUN apt-get update \
     git \
     zsh \
     vim \
+    sudo \
     sshpass \
     git-extras \
     openssh-client \
