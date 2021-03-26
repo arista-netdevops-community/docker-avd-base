@@ -11,9 +11,9 @@ USER avd
 
 ENV PATH=$PATH:/home/avd/.local/bin
 RUN pip3 install --upgrade pip
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements.txt
 RUN pip3 install --user  -r requirements.txt
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements-dev.txt
 RUN pip3 install --user  -r requirements-dev.txt
 
 
