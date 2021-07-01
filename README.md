@@ -28,10 +28,6 @@ __Table of content__
 
 These variables are used in `CMD` to customize container content using [`-e` option of docker](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e---env---env-file) cli:
 
-- `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container startup.
-- `AVD_ANSIBLE`: Ansible version to install in container when booting up
-- `AVD_UID`: set __uid__ for avd user in container.
-- `AVD_GID`: set __gid__ for avd user in container.
 - `AVD_GIT_USER`: Username to configure in .gitconfig file.
   - Can be set with `AVD_GIT_USER=$(git config --get user.name)`
 - `AVD_GIT_EMAIL`: Email to configure in .gitconfig file.
