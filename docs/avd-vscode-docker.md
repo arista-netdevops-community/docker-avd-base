@@ -77,12 +77,20 @@ Copy following content to `devcontainer.json`:
          "ms-python.vscode-pylance",
          "tht13.python"
     ],
+
     "containerEnv": {
         "ANSIBLE_CONFIG": "./ansible.cfg"
-    }
+    },
+
+    "remoteUser": "avd"
 }
 
 ```
+
+If any custom container modifications are required:
+
+1. Use "postCreateCommand" to install any missing requirements or custom Ansible version.
+2. Use bind mount to mount custom ansible-avd and ansible-cvp collections instead of default `/home/avd/ansible-avd` or `/home/avd/ansible-cvp`
 
 ### Open content in container
 
