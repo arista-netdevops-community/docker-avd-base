@@ -7,7 +7,6 @@ This how-to explains how to leverage __avdteam/base__ image as shell under [VSco
 __Table of content__
 - [How to use AVD image with VSCODE](#how-to-use-avd-image-with-vscode)
   - [About](#about)
-  - [Configure AVD environment](#configure-avd-environment)
   - [Devcontainer with docker image](#devcontainer-with-docker-image)
     - [Requirements](#requirements)
     - [Configure devcontainer](#configure-devcontainer)
@@ -16,38 +15,6 @@ __Table of content__
     - [Requirements](#requirements-1)
     - [Configure devcontainer](#configure-devcontainer-1)
     - [Open content in container](#open-content-in-container-1)
-
-## Configure AVD environment
-
-Before running all code with a container, we have to download current AVD ecosystem with the following command:
-
-- On Linux or Macos:
-
-```shell
-$ curl -fsSL https://get.avd.sh | sh
-```
-
-- On Windows:
-
-```shell
-PS C:\Users\User> Invoke-WebRequest -OutFile install.sh -Uri \
-https://raw.githubusercontent.com/arista-netdevops-community/avd-install/master/install.sh
-
-PS C:\Users\User> bash install.sh
-```
-
-This script git clone AVD and CVP collection as well as example repository to get started with example.
-
-```shell
-$ cd ansible-arista
-
-$ ls -al
-total 24
--rw-rw-r--  1 tom tom 2517 Jul 20 09:09 Makefile
-drwxrwxr-x  8 tom tom 4096 Jul 20 09:09 ansible-avd
-drwxrwxr-x  8 tom tom 4096 Jul 20 09:09 ansible-avd-cloudvision-demo
-drwxrwxr-x  9 tom tom 4096 Jul 20 09:09 ansible-cvp
-```
 
 ## Devcontainer with docker image
 
