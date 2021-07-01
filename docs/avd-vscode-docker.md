@@ -49,7 +49,6 @@ Copy following content to `devcontainer.json`:
     "image": "avdteam/base:3.6",
 
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/zsh",
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
         "python.linting.flake8Path": "/root/.local/bin/flake8",
