@@ -34,8 +34,10 @@ if [ -S ${DOCKER_SOCKET} ]; then
     sudo chmod 666 /var/run/docker.sock &>/dev/null
 fi
 
+# execute command from docker cli if any
 if [ ${@+True} ]; then
   exec "$@"
+# otherwise just enter zsh
 else
   exec zsh
 fi
