@@ -94,8 +94,8 @@ You can also configure your shell with an alias to make it easy to start contain
 ```shell
 # Configure alias in bashrc
 alias avd-shell='docker run -it --rm \
-	-v ${PWD}/:/projects \
-	avdteam/base:latest zsh'
+    -v ${PWD}/:/projects \
+    avdteam/base:latest zsh'
 
 # Run alias command
 $ avd-shell
