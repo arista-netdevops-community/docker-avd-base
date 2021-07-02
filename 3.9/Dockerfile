@@ -11,19 +11,21 @@ USER avd
 
 ENV PATH=$PATH:/home/avd/.local/bin
 RUN pip3 install --upgrade pip
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements.txt
 RUN pip3 install --user  -r requirements.txt
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements-dev.txt
 RUN pip3 install --user  -r requirements-dev.txt
 
 
 FROM python:3.9-slim as BASE
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
-LABEL com.example.version="1.0.2"
+LABEL com.example.version="1.0.4"
 LABEL vendor1="Arista"
-LABEL com.example.release-date="2020-06-17"
+LABEL com.example.release-date="2021-07-02"
 LABEL com.example.version.is-production="False"
+
+#USER root
 
 # Default ARG values
 # Set term option
@@ -42,10 +44,10 @@ RUN apt-get update \
     git \
     zsh \
     vim \
-    sudo \
     sshpass \
     git-extras \
     openssh-client \
+    sudo \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -72,6 +74,8 @@ RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/inst
     && echo 'export TERM=xterm' >>  $HOME/.zshrc \
     && echo "export LC_ALL=C.UTF-8" >> $HOME/.zshrc \
     && echo "export LANG=C.UTF-8" >> $HOME/.zshrc \
+    && echo "export LC_ALL=C.UTF-8" >> $HOME/.zshrc \
+    && echo "export LANG=C.UTF-8" >> $HOME/.zshrc \
     && echo 'export PATH=$PATH:/home/avd/.local/bin' >> $HOME/.zshrc
 
 # Set default folder
@@ -82,4 +86,4 @@ VOLUME ["/projects"]
 USER root
 COPY files/entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
-CMD [ "/bin/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/entrypoint.sh" ]
