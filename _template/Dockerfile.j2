@@ -1,4 +1,4 @@
-FROM python:{{PYTHON_VERSION}}-slim as BUILDER
+FROM python:{{version}}-slim as BUILDER
 
 WORKDIR /tmp
 
@@ -11,19 +11,21 @@ USER avd
 
 ENV PATH=$PATH:/home/avd/.local/bin
 RUN pip3 install --upgrade pip
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements.txt
 RUN pip3 install --user  -r requirements.txt
-RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/development/requirements-dev.txt
+RUN wget --quiet https://raw.githubusercontent.com/aristanetworks/ansible-avd/devel/ansible_collections/arista/avd/requirements-dev.txt
 RUN pip3 install --user  -r requirements-dev.txt
 
 
-FROM python:{{PYTHON_VERSION}}-slim as BASE
+FROM python:{{version}}-slim as BASE
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
-LABEL com.example.version="1.0.2"
+LABEL com.example.version="1.0.4"
 LABEL vendor1="Arista"
-LABEL com.example.release-date="2020-06-17"
+LABEL com.example.release-date="2021-07-02"
 LABEL com.example.version.is-production="False"
+
+#USER root
 
 # Default ARG values
 # Set term option
@@ -63,10 +65,7 @@ COPY --from=BUILDER /home/avd/.local/ /home/avd/.local
 ENV PATH=$PATH:/home/avd/.local/bin
 
 # Copy gitconfig file
-COPY gitconfig /home/avd/.gitconfig
-
-# Copy gitconfig file
-COPY gitconfig /home/avd/.gitconfig
+COPY files/gitconfig /home/avd/.gitconfig
 
 # Install Oh My ZSH to provide improved shell
 RUN wget --quiet https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
@@ -85,6 +84,6 @@ VOLUME ["/projects"]
 
 # Use ZSH as default shell with default oh-my-zsh theme
 USER root
-COPY entrypoint.sh /bin/entrypoint.sh
+COPY files/entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
-CMD [ "/bin/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/entrypoint.sh" ]

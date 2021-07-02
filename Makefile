@@ -14,13 +14,21 @@ GID ?= 1000
 help: ## Display help message
 	@grep -E '^[0-9a-zA-Z_-]+\.*[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+
+.PHONY: generate
+generate:  ## Generate Dockerfile from template folder
+	python docker-generator.py
+
+
 .PHONY: build
 build: ## Build docker image
+	python docker-generator.py
 	if [ $(BRANCH) = 'master' ]; then \
       docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR) -f $(FLAVOR)/Dockerfile .;\
 	else \
 	  docker build --rm --pull -t $(DOCKER_NAME):$(FLAVOR)-$(BRANCH) -f $(FLAVOR)/Dockerfile .;\
     fi
+
 
 .PHONY: run
 run: ## run docker image
