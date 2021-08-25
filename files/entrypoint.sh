@@ -69,4 +69,11 @@ export PATH=$PATH:/home/avd/.local/bin
 export LC_ALL=C.UTF-8
 
 cd /projects/
-su - avd -c "cd /projects && export ZSH_DISABLE_COMPFIX=true && /bin/zsh"
+
+# execute command from docker cli if any
+if [ ${@+True} ]; then
+  sudo -H -u ${USER} "$@"
+# otherwise just enter zsh
+else
+  su - avd -c "cd /projects && export ZSH_DISABLE_COMPFIX=true && /bin/zsh"
+fi
