@@ -4,6 +4,9 @@
     push:
       tags:
         - 'v*'
+    repository_dispatch:
+      types:
+        - refresh
 
   jobs:
     docker:
