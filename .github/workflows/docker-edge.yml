@@ -4,6 +4,9 @@
     push:
       branches:
         - 'master'
+    repository_dispatch:
+      types:
+        - refresh
 
   jobs:
     docker:

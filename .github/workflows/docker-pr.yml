@@ -22,7 +22,6 @@
         - name: Docker meta for PR
           id: meta
           uses: docker/metadata-action@v3
-          if: github.event_name == 'pull_request'
           with:
             images: ${{ secrets.DOCKER_IMAGE }}
             tags: |
