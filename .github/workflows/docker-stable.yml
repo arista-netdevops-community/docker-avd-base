@@ -21,26 +21,23 @@
       steps:
         - name: Checkout
           uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+
+        - name: Collect latest git TAG for refresh
+          id: get_latest_tag
+          run: |
+            echo "LATEST_TAG= 0" >> $GITHUB_ENV
+            echo "LATEST_TAG= $(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
         - name: Docker meta for TAG
           id: meta
           uses: docker/metadata-action@v3
-          if: ${{ github.event.action != 'refresh' }}
           with:
             images: ${{ secrets.DOCKER_IMAGE }}
             tags: |
-              type=match,pattern=v(.*),group=1, enable=true,priority=600,prefix=${{matrix.python_version}}-v,suffix=,value=
-
-        - name: Docker meta for TAG (refresh image)
-          id: meta
-          uses: docker/metadata-action@v3
-          if: ${{ github.event.action == 'refresh' }}
-          env:
-            LATEST_TAG: $(git describe --tags --abbrev=0)
-          with:
-            images: ${{ secrets.DOCKER_IMAGE }}
-            tags: |
-              raw=enable=true,priority=600,prefix=${{matrix.python_version}}-v,suffix=,value=${LATEST_TAG}
+              type=match,pattern=v(.*),group=1, enable=true,priority=200,prefix=${{matrix.python_version}}-v,suffix=,value=
+              raw=enable=true,priority=600,prefix=${{matrix.python_version}}-,suffix=,value=${{env.LATEST_TAG}}
 
         - name: Login to DockerHub
           uses: docker/login-action@v1
