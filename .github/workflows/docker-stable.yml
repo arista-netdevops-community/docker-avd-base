@@ -24,6 +24,15 @@
           with:
             fetch-depth: 0
 
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v2
+          with:
+            platforms: amd64,arm64
+
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v2
+
         - name: Collect latest git TAG for refresh
           id: get_latest_tag
           run: |
@@ -50,6 +59,7 @@
           with:
             context: .
             file: ${{ matrix.python_version }}/Dockerfile
+            platforms: linux/amd64, linux/arm64
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
