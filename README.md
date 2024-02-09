@@ -1,3 +1,12 @@
+# DEPRECATED
+
+![No Maintenance Intended](https://img.shields.io/maintenance/no/2024.svg)
+
+Consider using this replacement container [https://github.com/aristanetworks/avd/pkgs/container/avd%2Fdev ](https://github.com/aristanetworks/avd/pkgs/container/avd%2Fdev)
+
+Documentation: [https://avd.arista.com/stable/docs/containers/overview.html](https://avd.arista.com/stable/docs/containers/overview.html)
+
+--------
 ![](https://img.shields.io/badge/Arista-CVP%20Automation-blue)  ![](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/docker-avd-base) ![Docker Pulls](https://img.shields.io/docker/pulls/avdteam/base) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/avdteam/base/latest) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/avdteam/base/latest)
 # AVD Base Image
 
