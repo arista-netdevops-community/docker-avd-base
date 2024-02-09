@@ -8,6 +8,7 @@ Documentation: [https://avd.arista.com/stable/docs/containers/overview.html](htt
 
 --------
 ![](https://img.shields.io/badge/Arista-CVP%20Automation-blue)  ![](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/docker-avd-base) ![Docker Pulls](https://img.shields.io/docker/pulls/avdteam/base) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/avdteam/base/latest) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/avdteam/base/latest)
+
 # AVD Base Image
 
 Image with all python requirements installed to then run [__Arista Validated Design__](https://github.com/aristanetworks/ansible-avd) collection with a minimal configuration overhead. It can be used to support local development using following workflow
@@ -19,9 +20,6 @@ __Docker image:__ [`avdteam/base`](https://hub.docker.com/repository/docker/avdt
 __Table of content__
 - [AVD Base Image](#avd-base-image)
 	- [Description](#description)
-		- [Available Tags](#available-tags)
-			- [Stable version](#stable-version)
-			- [Deprecated](#deprecated)
 		- [Available variables](#available-variables)
 	- [How to leverage image](#how-to-leverage-image)
 		- [Arista Validated Design](#arista-validated-design)
@@ -35,40 +33,14 @@ __Table of content__
 
 ## Description
 
-### Available Tags
-
-- [`3.6`](3.6/Dockerfile)*
-- [`3.7`](3.7/Dockerfile)
-- [`3.8`](3.8/Dockerfile) / (latest)
-
-#### Stable version
-
-- `3.6-v<git-tag>`
-- `3.7-v<git-tag>`
-- `3.8-v<git-tag>`
-
-#### Deprecated
-
-- [`centos-7`](centos-7/Dockerfile) (deprecated)
-- [`centos-8`](centos-8/Dockerfile) (deprecated)
-``
-
-Current image used in AVD development: `avdteam/base:3.6`
-
 ### Available variables
 
 These variables are used in `CMD` to customize container content using [`-e` option of docker](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e---env---env-file) cli:
 
-- `AVD_REQUIREMENTS`: Path to a `requirements.txt` to install during container startup.
-- `AVD_ANSIBLE`: Ansible version to install in container when booting up
-- `AVD_UID`: set __uid__ for avd user in container.
-- `AVD_GID`: set __gid__ for avd user in container.
 - `AVD_GIT_USER`: Username to configure in .gitconfig file.
   - Can be set with `AVD_GIT_USER=$(git config --get user.name)`
 - `AVD_GIT_EMAIL`: Email to configure in .gitconfig file.
   - Can be set with `AVD_GIT_EMAIL=$(git config --get user.email)`
-
-
 
 To see how to customize your container with these options, you can refer to [How to install ansible and Python requirements page](docs/run-options.md)
 
@@ -131,8 +103,8 @@ You can also configure your shell with an alias to make it easy to start contain
 ```shell
 # Configure alias in bashrc
 alias avd-shell='docker run -it --rm \
-	-v ${PWD}/:/projects \
-	avdteam/base:latest zsh'
+    -v ${PWD}/:/projects \
+    avdteam/base:latest zsh'
 
 # Run alias command
 $ avd-shell
